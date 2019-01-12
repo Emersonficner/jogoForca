@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<h:head>
+		<ui:insert name="titulo"></ui:insert>
+	</h:head>
+	<h:body>
+	<h:outputStylesheet name="default.css" library="css" />
+	<p:layout fullPage="true">
+ 
+    <p:layoutUnit position="north" size="75" resizable="true" closable="true" collapsible="true">
+        <div id="cabecalho">
+			<h:panelGrid columns="2">		
+				<h:graphicImage library="img" name="logo1.png" width="40" height="40" />
+				<h:form id="form" rendered="#{usuarioLogado != null}" style="position:absolute; right:10px;">
+					<p:panelGrid columns="3">
+					<p:outputLabel value="Usuário: #{usuarioBean.usuario.email}" style="color:blue"   />
+				    <p:outputLabel id="ponto" value="Pontos: #{usuarioBean.usuario.pontos}" style="color:blue"   />
+					<p:themeSwitcher id="basic" style="width:140px" value="#{temaBean.tema}">
+			            <f:selectItem itemLabel="redmond" itemValue="" />
+			            <f:selectItems value="#{temaBean.temas}" var="tema" itemLabel="#{tema}" itemValue="#{tema}" />
+   
+			            <f:ajax />
+		        </p:themeSwitcher>
+			        </p:panelGrid>
+				</h:form>
+			</h:panelGrid>
+		</div>	
+    </p:layoutUnit>
+ 
+    <p:layoutUnit position="west" size="130" resizable="true" closable="true" collapsible="true">
+    <h:form>	 
+    <p:menuButton value="Menu" style=" width:500 px">
+				        <p:menuitem value="Jogos" action="jogo?faces-redirect=true"  icon="fa fa-fw fa-pencil-square-o"/>
+				        <p:menuitem value="Categoria" action="categoria?faces-redirect=true" icon="fa fa-fw- fa-pencil-square-o"/>
+				        <p:menuitem value="Cadastro jogo" action="cadastroJogo?faces-redirect=true" icon="fa fa-fw- fa-pencil-square-o"/>
+				        <p:menuitem value="Ranking Jogadores" action="ranking?faces-redirect=true" icon="fa fa-fw- fa-pencil-square-o"/>
+				        <p:separator />
+				        <p:menuitem value="Logout" action="#{loginBean.deslogar}" icon="fa fa-fw fa-sign-out"/>
+				    </p:menuButton>   					      
+		</h:form>
+    </p:layoutUnit>
+ 
+    <p:layoutUnit position="center">
+    	<div id="conteudo">
+			<ui:insert name="conteudo">
+			</ui:insert>
+		</div>        
+    </p:layoutUnit> 
+</p:layout>
+			
+	</h:body>
+
+</html>

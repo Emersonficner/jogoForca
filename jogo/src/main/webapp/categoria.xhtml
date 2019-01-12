@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="categoriaId" value="#{categoriaBean.categoriaId}" />
+		<f:viewAction action="#{categoriaBean.carregarCategoriaPelaId}"
+			if="#{param.categoriaId != null}" />
+	</f:metadata>
+	<ui:define name="titulo">
+		<p:outputPanel>Categoria</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="categoria">
+			<p:fieldset legend="Categoria">
+				<h:panelGrid columns="3">
+
+					<p:outputLabel value="Categoria:" for="categoria" />
+					<p:inputText id="categoria" value="#{categoriaBean.categoria.categoria}" required="true"
+						requiredMessage=" Informe Categoria">
+					</p:inputText>
+
+					<p:commandButton value="Gravar" action="#{categoriaBean.gravar()}"
+						process="@form" update="@form :formTabelaCategoria" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+
+		<h:form id="formTabelaCategoria">
+			<p:dataList value="#{categoriaBean.categorias}" var="categoria"
+				type="definition">
+				<f:facet name="header">
+		            Categoria
+		        </f:facet>
+
+				<p:commandButton icon="fa fa-fw fa-edit" update=":categoria">
+					<f:setPropertyActionListener value="#{categoria}"
+						target="#{categoriaBean.categoria}" />
+				</p:commandButton>
+
+				<p:commandButton icon="fa fa-fw fa-remove"
+					action="#{categoriaBean.remover(categoria)}" update="@form" />
+		       
+		       #{categoria.categoria} 
+		    </p:dataList>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+
+</html>

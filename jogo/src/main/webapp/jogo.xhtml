@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="template.xhtml">
+
+	<ui:define name="titulo">
+		Cadastro
+	</ui:define>
+	<ui:define name="conteudo">		
+		<h:form id="frmCadstro">
+		<p:messages globalOnly="true" style="position:absolute; left:400px;top:130px;"/>
+			<p:panelGrid columns="3" rendered="#{not jogoBean.disabled}" styleClass="companyHeaderGrid" style="position:absolute; left:400px;top:200px;">
+				<p:selectOneMenu value="#{jogoBean.categoria}" style="width:100px;" disabled="#{jogoBean.disabled}">
+					<f:selectItem itemLabel="" itemValue="" />
+	            	<f:selectItems value="#{jogoBean.listaCategoria}"/>
+	            	<f:converter converterId="genericEntityConverter"/>
+	        	</p:selectOneMenu>
+	        	<p:selectOneMenu value="#{jogoBean.tipo}" style="width:100px;" disabled="#{jogoBean.disabled}">
+					<f:selectItem itemLabel="" itemValue="" />
+	            	<f:selectItems value="#{jogoBean.listaTipo}" />
+	        	</p:selectOneMenu>
+	        	<p:commandButton value="Novo Jogo" actionListener="#{jogoBean.novoJogo}" disabled="#{jogoBean.disabled}" update="@form"/>
+				</p:panelGrid>
+			<p:panelGrid columns="1" rendered="#{jogoBean.disabled}" style="position:absolute; left:400px;top:200px;">
+				<h:panelGroup>
+					<p:repeat value="#{jogoBean.charList}" var="letra">
+						<p:inputText value="#{letra}" size="2" readonly="true"/>
+					</p:repeat>
+	             </h:panelGroup>
+	             <p:outputLabel value="Letras: #{jogoBean.charListEscolhido}" />
+	             <p:outputLabel value="Nível: #{jogoBean.jogo.nivel.descricao}" style="color:blue"/>
+	             <p:outputLabel value="Pontos: #{jogoBean.pontos}" style="color:blue"/>
+	             <p:outputLabel value="Pontos: #{jogoBean.erros}" style="color:red"/>
+	             <h:panelGroup>
+					<p:inputMask mask="a" id="inputletra" value="#{jogoBean.letra}" size="2" maxlength="1" style="text-transform: uppercase!important;"/>
+					<p:spacer width="5"/>
+					<p:commandButton value="Verifica" actionListener="#{jogoBean.verifica}" update="@form :form:ponto" process="inputletra @this"/>
+				</h:panelGroup>
+			</p:panelGrid>
+			<h:graphicImage library="img" name="fundo#{jogoBean.erros}.png" style="width:99%!important;"/>					
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
